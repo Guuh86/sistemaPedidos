@@ -1,0 +1,65 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Pedido</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngFor="let x of array">
+    <ion-item-divider>
+      DADOS DO CLIENTE
+    </ion-item-divider>
+    <ion-item>
+      <div>
+        <p class="pedido" slot="start">CLIENTE: {{x.nome}}</p>
+        <p class="pedido" slot="start">MESA: {{x.mesa}}</p>
+        <p class="pedido" slot="start">CPF/ID: {{x.cpf}}</p>
+      </div>
+    </ion-item>
+    <ion-item>
+      <ion-card>
+        <ion-card-content>
+          <div>
+            <ion-grid class="grid">
+              <ion-row>
+                <ion-col class="ion-align-self-start">
+                  Quant.
+                </ion-col>
+                <ion-col class="ion-align-self-start">
+                  Pedido
+                </ion-col>
+                <ion-col class="ion-align-self-start">
+                  Valor
+                </ion-col>
+              </ion-row>
+              <ion-row *ngFor="let a of x.pedido">
+                <ion-col>
+                  x{{a.count}}
+                </ion-col>
+                <ion-col>
+                  {{a.name}}
+                </ion-col>
+                <ion-col>
+                  {{a.price | currency: 'BRL':'symbol'}}
+                </ion-col>
+              </ion-row>              
+            </ion-grid>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </ion-item>
+    <ion-footer>
+      <ion-toolbar>
+        <ion-button expand="full" (click)="prepararPedido()">PREPARANDO PEDIDO</ion-button>
+        <ion-button expand="full">PEDIDO ENCERRADO</ion-button>
+        <ion-button expand="full">CANCELAR PEDIDO</ion-button>
+      </ion-toolbar>
+    </ion-footer>
+  </ion-list>
+</ion-content>
+

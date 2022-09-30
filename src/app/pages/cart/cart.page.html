@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Carrinho</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-subtitle>
+      <ion-icon class="item-size" name="cart"></ion-icon><br/>
+      Este é o seu carrinho de compras<br/>
+      Se desejar remover um item do carrinho deslize-o para a esquerda
+    </ion-card-subtitle>
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor="let item of selectedItems">
+          {{ item.count }}x | {{ item.name }}
+          <ion-label slot="end" text-right>{{ item.price * item.count | currency: 'BRL':'symbol'}}</ion-label>
+          <ion-button fill="clear" slot="end" (click)="avisoRemover(item)">
+            <ion-icon slot="end" name="trash"></ion-icon>
+          </ion-button>
+        </ion-item>
+        <ion-item>
+          Valor Total: <span slot="end">{{ total | currency:'BRL':'symbol' }}</span>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button expand="full" color="secondary" (click)="openAlert()">
+      <ion-icon name="checkmark-outline"></ion-icon>
+      &nbsp;Fechar Pedido 
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

@@ -1,0 +1,42 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Cardápio
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="openCart()">
+        <ion-icon name="cart" slot="icon-only"></ion-icon>
+      </ion-button>
+      <ion-badge *ngIf="cart.length > 0"> {{ cart.length }} </ion-badge>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div *ngFor="let cat of items" class="category-block">
+
+    <ion-row no-padding class="category-banner">
+      <ion-col>
+        {{ cat.categoria }}
+      </ion-col>
+    </ion-row>
+
+    <ion-slides [options]="sliderConfig">
+      <ion-slide *ngFor="let product of cat.products">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>
+              {{ product.name }} - R${{ product.price }}
+            </ion-card-title>
+            <ion-card-content>
+              <img src="https://via.placeholder.com/200" />
+              <ion-button expand="full" (click)="addToCart(product)">
+                ADICIONAR AO &nbsp; <ion-icon name="cart"></ion-icon>
+              </ion-button>
+            </ion-card-content>
+          </ion-card-header>
+        </ion-card>
+      </ion-slide>
+    </ion-slides>
+  </div>
+</ion-content>

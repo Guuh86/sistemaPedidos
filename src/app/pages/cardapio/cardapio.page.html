@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="welcome">Bem-vindo(a)</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card class="card">
+    <ion-img src="https://viagemegastronomia.cnnbrasil.com.br/wp-content/uploads/sites/5/2022/02/boato-ambiente-itaim.jpg?w=876&h=484&crop=1"></ion-img>
+    <ion-card-header>
+      <ion-card-subtitle>
+        Restaurante agradece a sua preferência
+      </ion-card-subtitle>
+      <ion-card-title>
+        Restaurante
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-label>Encontre Restaurante também em:</ion-label>
+      <ion-list class="list-contact">
+        <ion-item button>
+          <ion-icon style="color: blueviolet" name="logo-instagram" slot="start"></ion-icon>
+          <ion-label>Instagram</ion-label>
+        </ion-item>
+        <ion-item button>
+          <ion-icon color="primary" name="map" slot="start"></ion-icon>
+          <ion-label>Avalie-nos</ion-label>
+        </ion-item>
+        <ion-item button>
+          <ion-icon color="success" name="logo-whatsapp" slot="start"></ion-icon>
+          <ion-label>Peça sem sair de casa</ion-label>
+        </ion-item>
+      </ion-list>
+      <ion-button expand="full" color="primary" (click)="start()">INICIAR ATENDIMENTO</ion-button>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

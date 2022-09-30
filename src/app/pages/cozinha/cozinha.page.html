@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Pedidos Recebidos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-segment [(ngModel)]="selectValue" class="segmento">
+    <ion-segment-button value="open">
+      <ion-label>EM ABERTO</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="closed">
+      <ion-label>ENCERRADOS</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+  <div *ngIf="selectValue == 'open'">
+    <ion-list *ngFor="let a of pedidoData; let i = index">
+      <ion-item-divider>
+        <ion-label slot="start">PEDIDO DA MESA: {{pedidoData[i].mesa}}</ion-label>
+        <ion-buttons slot="end">
+          <ion-button (click)="openModal(pedidoData[i])">
+            <ion-icon name="information-circle"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-item-divider>
+      <ion-list>
+        <ion-item *ngFor="let pedido of a.pedido">
+          <ion-label slot="start">{{ pedido.name }}</ion-label>
+          <ion-label slot="end">{{ pedido.price | currency: 'BRL':'symbol'}}</ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-list>
+  </div>
+</ion-content>
