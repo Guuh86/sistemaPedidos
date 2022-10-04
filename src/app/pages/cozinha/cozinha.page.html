@@ -31,4 +31,22 @@
       </ion-list>
     </ion-list>
   </div>
+  <div *ngIf="selectValue == 'closed'">
+    <ion-list *ngFor="let a of encerradosData; let i = index">
+      <ion-item-divider>
+        <ion-label slot="start">PEDIDO: {{encerradosData[i].cpf}} </ion-label>
+        <ion-buttons slot="end">
+          <ion-button (click)="openModal(encerradosData[i])">
+            <ion-icon name="information-circle"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-item-divider>
+      <ion-list>
+        <ion-item *ngFor="let pedido of a.pedido">
+          <ion-label slot="start">{{ pedido.name }}</ion-label>
+          <ion-label slot="end">{{ pedido.price | currency: 'BRL':'symbol'}}</ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-list>
+  </div>
 </ion-content>

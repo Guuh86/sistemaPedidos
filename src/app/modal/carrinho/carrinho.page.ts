@@ -19,4 +19,8 @@ export class CarrinhoPage implements OnInit {
     this.router.navigate(['/consulta'])
   }
 
+  redirectCard(){
+    this.router.navigate(['/home'])
+  }
+
 }

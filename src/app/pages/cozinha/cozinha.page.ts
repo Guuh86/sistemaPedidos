@@ -12,14 +12,17 @@ import { PedidoPage } from 'src/app/modal/pedido/pedido.page';
 export class CozinhaPage implements OnInit {
 
   pedidoData: any;
+  encerradosData: any;
   expanded: boolean;
+
+  pedidoClosed: [];
 
   selectValue: string = 'open';
 
   constructor(
     private crud: CrudService,
     private modal: ModalController
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.crud.read().subscribe((res) => {
@@ -31,12 +34,20 @@ export class CozinhaPage implements OnInit {
       })
       console.log(this.pedidoData)
     });
+
+    this.crud.readClosed().subscribe((resC) => {
+      this.encerradosData = resC.map((x) => {
+        return {
+          id: x.payload.doc.id,
+          ...x.payload.doc.data() as Produto
+        }
+      })
+    })
   }
 
-  async openModal(value){
+  async openModal(value) {
     const modal = await this.modal.create({
       component: PedidoPage,
-      cssClass: 'modal-pedido-page',
       componentProps: {
         id_pedido: value
       }

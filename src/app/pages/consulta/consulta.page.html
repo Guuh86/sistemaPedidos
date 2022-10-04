@@ -1,89 +1,83 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Ver Pedido</ion-title>
+  <ion-toolbar class="form">
+    <ion-title text-center>Ver Pedido</ion-title>
   </ion-toolbar>
 </ion-header>
-
-<div class="ion-page">
-    <div class="form">
+<ion-content>
+  <div>
+    <div>
       <ion-card>
-        <ion-item>
+        <ion-item class="form">
           <ion-label>Consulte o seu pedido!</ion-label>
         </ion-item>
-        <ion-item>
+        <ion-item class="form">
           <ion-label>O ID do pedido é o CPF cadastrado na hora <br /> de enviar o pedido</ion-label>
         </ion-item>
       </ion-card>
       <ion-card>
         <ion-list>
-          <ion-item>
+          <ion-item class="form">
             <ion-input [(ngModel)]="cpf" slot="start" type="text" placeholder="Insira do ID do pedido"></ion-input>
-            <ion-button slot="end" id="open-modal" (click)="showData()">
-              <ion-icon name="search"></ion-icon>
-            </ion-button>
+            <ion-buttons slot="end" (click)="getData()">
+              <ion-button>
+                <ion-icon name="search"></ion-icon>
+              </ion-button>
+            </ion-buttons>
           </ion-item>
         </ion-list>
       </ion-card>
     </div>
-  <ion-modal #modal trigger="open-modal" [presentingElement]="presentingElement">
-    <ng-template>
-      <ion-header>
-        <ion-toolbar>
-          <ion-title slot="start" *ngFor="let a of pedido; let i = index">Pedido #{{pedido[i].cpf}}</ion-title>
-          <ion-buttons slot="end" (click)="closeModal()">
-            <ion-button (click)="modal.dismiss()">FECHAR</ion-button>
-          </ion-buttons>
-        </ion-toolbar>
-      </ion-header>
-      <ion-content>
-        <div class="results">
-          <ion-card>
-            <ion-list *ngFor="let a of pedido; let i = index">
-              <ion-item-divider class="divisor">
-                <ion-label>
-                  MESA DO PEDIDO: {{ pedido[i].mesa }}<br />
-                  CLIENTE: {{ pedido[i].nome }}<br />
-                  ID DO PEDIDO: #{{ pedido[i].cpf }}
-                </ion-label>
-              </ion-item-divider>
-              <ion-item *ngFor="let pedido of a.pedido">
-                <ion-card>
-                  <ion-card-content>
-                    <p>Prato: {{ pedido.name }}</p>
-                    <p>Quantidade: {{ pedido.count}}</p>
-                    <p>Valor: {{ pedido.price | currency: 'BRL':'symbol'}}</p>
-                  </ion-card-content>
-                </ion-card>
+    <div *ngIf="pedido" class="pedidoData">
+      <ion-card-content>
+        <ion-list *ngFor="let x of pedido">
+          <ion-item-divider>
+            DADOS DO CLIENTE
+          </ion-item-divider>
+          <ion-card *ngIf="pedido" class="pedidoData">
+            <ion-card-content *ngIf="pedido" class="pedidoData">
+              <ion-item>
+                <div>
+                  <p class="pedido" slot="start"><span class="dados">CLIENTE:</span> {{x.nome}}</p>
+                  <p class="pedido" slot="start"><span class="dados">MESA:</span> {{x.mesa}}</p>
+                  <p class="pedido" slot="start"><span class="dados">CPF/ID:</span> {{x.cpf}}</p>
+                </div>
               </ion-item>
-            </ion-list>
+            </ion-card-content>
           </ion-card>
-        </div>
-      </ion-content>
-    </ng-template>
-  </ion-modal>
-</div>
-
-<!--
-  <div class="results">
-        <ion-card>
-          <ion-list *ngFor="let a of pedido; let i = index">
-            <ion-item-divider class="divisor">
-              <ion-label>
-                MESA DO PEDIDO: {{ pedido[i].mesa }}<br/> 
-                CLIENTE: {{ pedido[i].nome }}<br/>
-                ID DO PEDIDO: #{{ pedido[i].cpf }}
-              </ion-label>
-            </ion-item-divider>
-              <ion-item *ngFor="let pedido of a.pedido">
-                <ion-card>          
-                  <ion-card-content>
-                    <p>Prato: {{ pedido.name }}</p>
-                    <p>Quantidade: {{ pedido.count}}</p>
-                    <p>Valor: {{ pedido.price | currency: 'BRL':'symbol'}}</p>
-                  </ion-card-content>
-                </ion-card>
+        </ion-list>
+        <ion-list *ngFor="let x of pedido; let i = index">
+          <ion-item-divider>
+            DETALHES DO PEDIDO
+          </ion-item-divider>
+          <div *ngFor="let a of x.pedido">
+            <ion-card>
+              <ion-card-content>
+                <ion-item>
+                  <div>
+                    <p class="pedido" slot="start">x{{ a.count }} &nbsp; {{a.name}} &nbsp;|&nbsp; {{ a.price | currency:
+                      'BRL':'symbol' }}</p>
+                  </div>
+                </ion-item>
+              </ion-card-content>
+            </ion-card>
+          </div>
+          <ion-item-divider>
+            STATUS DO PEDIDO
+          </ion-item-divider>
+          <ion-card>
+            <div *ngFor="let x of pedido">
+              <ion-item>
+                <div slot="start" class="blobRed" *ngIf="x.status === '0'"></div>
+                <div slot="start" class="blobYellow" *ngIf="x.status === '1'"></div>
+                <div slot="start" class="blobGreen" *ngIf="x.status === '2'"></div>
+                <ion-icon color="danger" class="blobCancel" *ngIf="x.status === '3'" name="close-circle"></ion-icon>
+                &nbsp;
+                <p class="status">{{ x.statusDesc }}</p>
               </ion-item>
-          </ion-list>
-        </ion-card>
-      </div>
--->
+            </div>
+          </ion-card>
+        </ion-list>
+      </ion-card-content>
+    </div>
+  </div>
+</ion-content>

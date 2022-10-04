@@ -1,0 +1,52 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title *ngFor="let x of values">PEDIDO: # {{x.cpf}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngFor="let x of values">
+    <ion-item-divider>
+      DADOS DO CLIENTE
+    </ion-item-divider>
+    <ion-card>
+      <ion-card-content>
+        <ion-item>
+          <div>
+            <p class="pedido" slot="start">CLIENTE: {{x.nome}}</p>
+            <p class="pedido" slot="start">MESA: {{x.mesa}}</p>
+            <p class="pedido" slot="start">CPF/ID: {{x.cpf}}</p>
+          </div>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+  <ion-list *ngFor="let x of values; let i = index">
+    <ion-item-divider>
+      DETALHES DO PEDIDO
+    </ion-item-divider>
+    <div *ngFor="let a of x.pedido">
+      <ion-card>
+        <ion-card-content>
+          <ion-item>
+            <div>
+              <p class="pedido" slot="start">x{{ a.count }} &nbsp; {{a.name}} &nbsp;|&nbsp; {{ a.price | currency: 'BRL':'symbol' }}</p>
+            </div>
+          </ion-item>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </ion-list>
+  <ion-item-divider>
+    STATUS DO PEDIDO
+  </ion-item-divider>
+  <div *ngFor="let x of values">
+    <ion-item>
+      <div slot="start" class="blobRed" *ngIf="x.status === '0'"></div>
+      <div slot="start" class="blobYellow" *ngIf="x.status === '1'"></div>
+      <div slot="start" class="blobGreen" *ngIf="x.status === '2'"></div>
+      &nbsp;
+      <p class="status">{{ x.statusDesc }}</p>
+    </ion-item>      
+  </div>
+</ion-content>

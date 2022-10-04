@@ -53,17 +53,6 @@ export class CartPage implements OnInit {
     this.selectedItems = Object.keys(selected).map(key => selected[key]);
     this.total = this.selectedItems.reduce((a, b) => a + (b.count * b.price), 0);
 
-    let x = this.crud.getAllStatus();
-    x.snapshotChanges().subscribe(data => {
-      this.status = [];
-      data.forEach(item => {
-        let a: any = item.payload.toJSON();
-        a['$key'] = item.key;
-        this.status.push(a as Status);
-      })
-    })
-
-
   }
 
   async openAlert() {
@@ -123,6 +112,8 @@ export class CartPage implements OnInit {
         nome: [this.nome],
         cpf: [this.cpf],
         mesa: [this.mesa],
+        status: ['0'],
+        statusDesc: ['ENVIADO PARA A COZINHA'],
         pedido: [this.selectedItems]
       });
 
@@ -130,8 +121,6 @@ export class CartPage implements OnInit {
         idPedido: [this.cpf],
         status: [0]
       })
-
-      this.crud.createStatus(this.statusForm.value)
       this.crud.create(this.pedidoForm.value, this.cpf).then(resp => {
         this.router.navigate(['/carrinho']);
       })

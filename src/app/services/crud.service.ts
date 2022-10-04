@@ -1,26 +1,17 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Produto } from '../interfaces/produto';
-import {
-  AngularFireDatabase,
-  AngularFireList,
-  AngularFireObject,
-} from '@angular/fire/compat/database';
-import { Status } from '../interfaces/status';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CrudService {
 
-  statusRef !: AngularFireList<any>;
-  statRef !: AngularFireObject<any>;
-
   dbName = 'Pedidos';
+  dbClosed = 'Encerrados';
 
   constructor(
-    private db: AngularFirestore,
-    private realtime: AngularFireDatabase
+    private db: AngularFirestore
   ) { }
 
   create(product, doc) {
@@ -39,33 +30,16 @@ export class CrudService {
     this.db.doc(this.dbName + '/' + productID).update(product);
   }
 
-  delete(product_ID) {
-    this.db.doc(this.dbName + '/' + product_ID).delete();
+  delete(id) {
+    this.db.doc(this.dbName + '/' + id).delete();
   }
 
-  createStatus(item: Status){
-    this.statusRef.push(item);
+  createClosed(doc, product){
+    return this.db.collection(this.dbClosed).doc(doc).set(product);
   }
 
-  getStatus(id: any){
-    this.statRef = this.realtime.object('Status/' + id);
-    return this.statRef
+  readClosed(){
+    return this.db.collection(this.dbClosed).snapshotChanges();
   }
-
-  getAllStatus(){
-    this.statusRef = this.realtime.list('Status/');
-    return this.statusRef;
-  }
-
-  updateStatus(id: any, item: Status){
-    this.statRef.update(item);
-  }
-
-  deleteStatus(id: any){
-    this.statRef = this.realtime.object('Status/' + id);
-    this.statRef.remove();
-  }
-
-
 
 }

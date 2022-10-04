@@ -10,6 +10,81 @@
 </ion-header>
 
 <ion-content>
+  <div id="print" class="text">
+    <table class="printer-ticket" *ngFor="let x of array">
+      <thead>
+       <tr>
+         <th class="title" colspan="3">Restaurante Teste</th>
+       </tr>
+       <tr>
+         <th colspan="3">{{date | date: 'EEEE, dd-MM-yyyy -- hh:mm:ss '}}</th>
+       </tr>
+       <tr>
+         <th colspan="3">
+           Cliente: {{x.nome}} <br />
+           CPF: {{x.cpf}}
+         </th>
+       </tr>
+       <tr>
+         <th class="ttu" colspan="3">
+           <b>Cupom não fiscal</b>
+         </th>
+       </tr>
+     </thead>
+     <tbody *ngFor="let a of x.pedido">
+       <tr class="top">
+         <td colspan="3">{{a.name}}</td>
+       </tr>
+       <tr>
+         <td>{{a.price | currency: 'BRL':'symbol'}}</td>
+         <td>Quantidade: x{{a.count}}</td>
+       </tr>
+     </tbody>
+     <tfoot>
+       <tr class="sup ttu p--0">
+         <td colspan="3" class="ttu">
+           <b>Totais</b>
+         </td>
+       </tr>
+       <tr class="ttu">
+         <td colspan="2">Sub-total:</td>
+         <td >{{totalPedido | currency: 'BRL':'symbol'}}</td>
+       </tr>
+       <tr class="sup">
+         <td colspan="3">
+           <p class="center">www.site.com.br</p>
+         </td>
+       </tr>
+     </tfoot>
+   </table>  
+  </div>
+  <ion-footer>
+    <ion-toolbar *ngFor="let x of array">
+      <ion-button expand="full" (click)="updatePreparando(x.cpf)">
+        <ion-icon slot="start" name="fast-food-outline"></ion-icon>
+        AVISAR PREPARO
+      </ion-button>
+      <ion-button expand="full" (click)="updateEncerrado(x.cpf)">
+        <ion-icon slot="start" name="paper-plane-outline"></ion-icon>
+        PEDIDO ENVIADO
+      </ion-button>
+      <ion-button expand="full" (click)="updateCancelado(x.cpf)">
+        <ion-icon slot="start" name="close-circle-outline"></ion-icon>
+        CANCELAR PEDIDO
+      </ion-button>
+      <ion-button expand="full" (click)="changeData(x.cpf)">
+        <ion-icon slot="start" name="archive-outline"></ion-icon>
+        FINALIZAR PEDIDO
+      </ion-button>
+      <ion-button expand="full" (click)="generatePDF()">
+        <ion-icon slot="start" name="newspaper-outline"></ion-icon>
+        GERAR NOTA
+      </ion-button>
+    </ion-toolbar>
+  </ion-footer>
+</ion-content>
+
+<!--
   <ion-list *ngFor="let x of array">
     <ion-item-divider>
       DADOS DO CLIENTE
@@ -47,19 +122,11 @@
                 <ion-col>
                   {{a.price | currency: 'BRL':'symbol'}}
                 </ion-col>
-              </ion-row>              
+              </ion-row>
             </ion-grid>
           </div>
         </ion-card-content>
       </ion-card>
     </ion-item>
-    <ion-footer>
-      <ion-toolbar>
-        <ion-button expand="full" (click)="prepararPedido()">PREPARANDO PEDIDO</ion-button>
-        <ion-button expand="full">PEDIDO ENCERRADO</ion-button>
-        <ion-button expand="full">CANCELAR PEDIDO</ion-button>
-      </ion-toolbar>
-    </ion-footer>
   </ion-list>
-</ion-content>
-
+-->

@@ -16,10 +16,16 @@
         Agora só aguardar que logo logo você será servido!<br />
         Você também pode conferir o seu pedido pra ver se tá tudo certinho com ele<br />
         caso haja alguma inconsistência, considere chamar um garçom.
-        <div>
-          <ion-button expand="full" (click)="redirect()">VER MEUS PEDIDOS</ion-button>
-        </div>
       </ion-card-content>
+    </ion-card-header>
+    <ion-card-header>
+      <ion-card-title>O que você deseja fazer agora?</ion-card-title>
+      <div>
+        <ion-button expand="full" (click)="redirectCard()">VOLTAR PARA O CARDÁPIO</ion-button>
+      </div>
+      <div>
+        <ion-button expand="full" (click)="redirect()">VER MEUS PEDIDOS</ion-button>
+      </div>
     </ion-card-header>
   </ion-card>
 </ion-content>

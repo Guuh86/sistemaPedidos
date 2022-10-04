@@ -35,6 +35,10 @@ const routes: Routes = [
     path: 'pedido/:id',
     loadChildren: () => import('./modal/pedido/pedido.module').then( m => m.PedidoPageModule)
   },
+  {
+    path: 'result',
+    loadChildren: () => import('./modal/result/result.module').then( m => m.ResultPageModule)
+  },
 ];
 
 @NgModule({
