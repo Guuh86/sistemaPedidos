@@ -40,3 +40,10 @@ O sistema ainda pode ser implementado com outras funcionalidades tais como o Reg
 <img src="https://user-images.githubusercontent.com/42076223/194164343-323c46c1-6e3e-4f0b-8633-4d618f6776d7.png?raw=true" width="300"/>
 <img src="https://user-images.githubusercontent.com/42076223/194160397-1fb8dca6-92a0-4be7-a248-1b728966253d.png?raw=true" width="300"/>
 
+# Como instalar?
+
+- `Baixar o repositório para uma pasta desejada`
+- `Executar o prompt de comando do NodeJS dentro da pasta onde estão os arquivos`
+- `Executar o comando "npm install" para instalar todas as dependências necessárias para o funcionamento do sistema`
+- `Executar o comando "ionic serve", aguardar o carregamento e pronto!`
+
