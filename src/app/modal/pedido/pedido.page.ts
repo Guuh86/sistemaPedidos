@@ -1,17 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ModalController, NavParams } from '@ionic/angular';
+import { AlertController, ModalController, NavParams, ToastController } from '@ionic/angular';
 import { CrudService } from 'src/app/services/crud.service';
 import { LoadingController } from '@ionic/angular';
-
-import pdfMake from 'pdfmake/build/pdfMake';
-import pdfFonts from 'pdfmake/build/vfs_fonts';
-pdfMake.vfs = pdfFonts.pdfMake.vfs;
-import * as htmlToImage from 'html-to-image';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-pedido',
   templateUrl: './pedido.page.html',
   styleUrls: ['./pedido.page.scss'],
+  providers: [DatePipe]
 })
 export class PedidoPage implements OnInit {
 
@@ -20,20 +17,33 @@ export class PedidoPage implements OnInit {
   totalPedido = 0;
 
   date = new Date();
+  showbtn: boolean;
 
   private loading: any;
-  private loadingX: any;
-  content: string;
-  pdfObj: any;
+
+  opt1: boolean = true;
+  opt2: boolean = true;
+  opt3: boolean = true;
+  opt4: boolean = true;
 
   constructor(
     private modal: ModalController,
     private nav: NavParams,
     private crud: CrudService,
-    private load: LoadingController
+    private load: LoadingController,
+    private alert: AlertController,
+    private toast: ToastController
   ) { }
 
   ngOnInit() {
+    
+  }
+
+  ngViewAfterInit(){
+    this.loadData();
+  }
+
+  loadData() {
     this.idPedido = this.nav.get('id_pedido');
     this.array.push(this.idPedido);
     console.log(this.array);
@@ -51,20 +61,17 @@ export class PedidoPage implements OnInit {
     return this.loading.present();
   }
 
-  async generateLoad() {
-    this.loadingX = await this.load.create({
-      message: 'Gerando PDF. Aguarde...'
-    })
-    return this.loadingX.present();
-  }
-
   updatePreparando(id) {
     this.array = [];
     this.crud.update(id, {
       status: '1',
       statusDesc: 'PEDIDO LIDO PELA COZINHA E ESTÁ EM PREPARO'
     });
-    this.ngOnInit();
+    this.opt1 = false;
+    this.opt2 = true;
+    this.opt3 = true;
+    this.opt4 = true;
+    this.loadData();
   }
 
   updateEncerrado(id) {
@@ -73,7 +80,11 @@ export class PedidoPage implements OnInit {
       status: '2',
       statusDesc: 'O PEDIDO FOI FEITO E ESTÁ SENDO ENVIADO PARA VOCÊ'
     });
-    this.ngOnInit();
+    this.opt1 = true;
+    this.opt2 = false;
+    this.opt3 = true;
+    this.opt4 = true;
+    this.loadData();
   }
 
   updateCancelado(id) {
@@ -82,57 +93,75 @@ export class PedidoPage implements OnInit {
       status: '3',
       statusDesc: 'POXA, SEU PEDIDO FOI CANCELADO!'
     });
-    this.ngOnInit();
+    this.opt1 = true;
+    this.opt2 = true;
+    this.opt3 = false;
+    this.opt4 = true;
+    this.loadData();
   }
 
-  changeData(value) {
-    for (let i = 0; i < this.array.length; i++) {
-      if (value == this.array[i].id) {
-        this.array.forEach(x => {
-          const ecerrado = x;
-          this.createClosedPedido(value, ecerrado);
-        });
-      }
-    }
-  }
-
-  async generatePDF() {
-    await this.generateLoad();
-    try {
-      let node: any = document.getElementById('print');
-      htmlToImage.toPng(node).then(dataUrl => {
-        let img = new Image();
-        img.src = dataUrl.toString();
-        //let content = document.body.appendChild(img);
-        let pdf = {
-          content: [
-            { image: `${img.src}`, width: 200 }
-          ]
+  async changeData(id) {
+    const alert = await this.alert.create({
+      header: 'Tem certeza?',
+      subHeader: 'Ao selecionar esta opção o pedido será mivodo para a seção de encerrados. Deseja continuar?',
+      buttons: [
+        {
+          text: 'CANCELAR',
+          role: 'cancel'
+        },
+        {
+          text: 'OK',
+          role: 'confirm',
+          handler: () => {
+            try {
+              for (let i = 0; i < this.array.length; i++) {
+                if (id == this.array[i].id) {
+                  this.array.forEach(x => {
+                    const ecerrado = x;
+                    this.createClosedPedido(id, ecerrado);
+                  });
+                }
+              }
+            } catch (error){
+              this.toastError(error);
+            } finally {
+              this.loadData();
+            }
+          }
         }
-        this.pdfObj = pdfMake.createPdf(pdf);
-        this.pdfObj.download();
-      }).catch(error => {
-        console.log(error);
-      })
-    } catch (error){
-      console.log(error);
-    } finally {
-      this.loadingX.dismiss();
-    }
+      ]
+    });
+    await alert.present();
   }
+
+  async toastError(msg: string){
+    const toast = await this.toast.create({
+      message: msg,
+      duration: 2500
+    });
+    await toast.present();
+  }  
 
   close() {
     this.modal.dismiss();
   }
 
-  createClosedPedido(value, data) {
-    this.crud.createClosed(value, data);
-    this.modal.dismiss();
-    this.deletePedido(value);
+  async createClosedPedido(id, product) {
+    try {
+      await this.crud.createClosed(id, product);
+      await this.crud.updateClosed(id, {
+        endData: new Date()
+      });
+    } catch (error) {
+      this.toastError(error);
+    } finally {
+      this.modal.dismiss();
+      this.deletePedido(id);
+    }
   }
 
-  deletePedido(value) {
-    this.crud.delete(value);
+  deletePedido(id) {
+    this.crud.delete(id);
   }
 
 }

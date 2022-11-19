@@ -38,7 +38,11 @@ const routes: Routes = [
   {
     path: 'result',
     loadChildren: () => import('./modal/result/result.module').then( m => m.ResultPageModule)
+  },  {
+    path: 'encerrado',
+    loadChildren: () => import('./modal/encerrado/encerrado.module').then( m => m.EncerradoPageModule)
   },
+
 ];
 
 @NgModule({

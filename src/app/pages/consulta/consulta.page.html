@@ -18,7 +18,7 @@
         <ion-list>
           <ion-item class="form">
             <ion-input [(ngModel)]="cpf" slot="start" type="text" placeholder="Insira do ID do pedido"></ion-input>
-            <ion-buttons slot="end" (click)="getData()">
+            <ion-buttons slot="end" (click)="verify()">
               <ion-button>
                 <ion-icon name="search"></ion-icon>
               </ion-button>
@@ -27,57 +27,60 @@
         </ion-list>
       </ion-card>
     </div>
-    <div *ngIf="pedido" class="pedidoData">
+    <div *ngIf="pedido.length > 0" class="pedidoData">
       <ion-card-content>
         <ion-list *ngFor="let x of pedido">
           <ion-item-divider>
             DADOS DO CLIENTE
           </ion-item-divider>
-          <ion-card *ngIf="pedido" class="pedidoData">
-            <ion-card-content *ngIf="pedido" class="pedidoData">
-              <ion-item>
-                <div>
-                  <p class="pedido" slot="start"><span class="dados">CLIENTE:</span> {{x.nome}}</p>
-                  <p class="pedido" slot="start"><span class="dados">MESA:</span> {{x.mesa}}</p>
-                  <p class="pedido" slot="start"><span class="dados">CPF/ID:</span> {{x.cpf}}</p>
-                </div>
-              </ion-item>
-            </ion-card-content>
-          </ion-card>
+          <ion-item>
+            <ion-icon slot="start" name="person-outline"></ion-icon>
+            <p class="pedido" slot="start"><span class="dados">CLIENTE:</span> {{x.nome}}</p>
+          </ion-item>
+          <ion-item>
+            <ion-icon slot="start" name="archive-outline"></ion-icon>
+            <p class="pedido" slot="start"><span class="dados">MESA:</span> {{x.mesa}}</p>
+          </ion-item>
+          <ion-item>
+            <ion-icon slot="start" name="id-card-outline"></ion-icon>
+            <p class="pedido" slot="start"><span class="dados">CPF/ID:</span> {{x.cpf}}</p>
+          </ion-item>
         </ion-list>
         <ion-list *ngFor="let x of pedido; let i = index">
           <ion-item-divider>
             DETALHES DO PEDIDO
           </ion-item-divider>
           <div *ngFor="let a of x.pedido">
-            <ion-card>
-              <ion-card-content>
-                <ion-item>
-                  <div>
-                    <p class="pedido" slot="start">x{{ a.count }} &nbsp; {{a.name}} &nbsp;|&nbsp; {{ a.price | currency:
-                      'BRL':'symbol' }}</p>
-                  </div>
-                </ion-item>
-              </ion-card-content>
-            </ion-card>
+            <ion-item>
+              <ion-icon slot="start" name="document-text-outline"></ion-icon>
+              <p class="pedido">
+                x{{ a.count }} &nbsp;
+                {{a.name}} &nbsp;|&nbsp;
+                {{ a.price | currency: 'BRL':'symbol' }}
+              </p>
+            </ion-item>
           </div>
           <ion-item-divider>
             STATUS DO PEDIDO
           </ion-item-divider>
-          <ion-card>
-            <div *ngFor="let x of pedido">
-              <ion-item>
-                <div slot="start" class="blobRed" *ngIf="x.status === '0'"></div>
-                <div slot="start" class="blobYellow" *ngIf="x.status === '1'"></div>
-                <div slot="start" class="blobGreen" *ngIf="x.status === '2'"></div>
-                <ion-icon color="danger" class="blobCancel" *ngIf="x.status === '3'" name="close-circle"></ion-icon>
-                &nbsp;
-                <p class="status">{{ x.statusDesc }}</p>
-              </ion-item>
-            </div>
-          </ion-card>
+          <div *ngFor="let x of pedido">
+            <ion-item>
+              <ion-icon slot="start" name="alert-circle-outline"></ion-icon>
+              <div slot="start" class="blobRed" *ngIf="x.status === '0'"></div>
+              <div slot="start" class="blobYellow" *ngIf="x.status === '1'"></div>
+              <div slot="start" class="blobGreen" *ngIf="x.status === '2'"></div>
+              <ion-icon color="danger" class="blobCancel" *ngIf="x.status === '3'" name="close-circle"></ion-icon>
+              &nbsp;
+              <p class="status">{{ x.statusDesc }}</p>
+            </ion-item>
+          </div>
         </ion-list>
       </ion-card-content>
     </div>
   </div>
 </ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-button expand="full" routerLink="/cardapio">VOLTAR PARA O INÍCIO</ion-button>
+  </ion-toolbar>
+</ion-footer>

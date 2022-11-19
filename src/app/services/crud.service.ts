@@ -23,7 +23,7 @@ export class CrudService {
   }
 
   get(cpf) {
-    return this.db.collection(this.dbName).doc<Produto>(cpf).valueChanges();
+    return this.db.collection(this.dbName).doc(cpf).valueChanges();
   }
 
   update(productID, product) {
@@ -35,11 +35,26 @@ export class CrudService {
   }
 
   createClosed(doc, product){
-    return this.db.collection(this.dbClosed).doc(doc).set(product);
+    return this.db.collection(this.dbClosed, ref => ref.orderBy('preferred_time', 'desc')).doc(doc).set(product)
   }
 
   readClosed(){
     return this.db.collection(this.dbClosed).snapshotChanges();
+  }
+
+  updateClosed(id, product){
+    return this.db.doc(this.dbClosed + '/' + id).update(product);
+  }
+
+  async check(id){
+    const ref = this.db.collection(this.dbName).doc(id)
+    ref.get().subscribe(data => {
+      if (data.exists){
+        return true;
+      } else {
+        return false;
+      }
+    })
   }
 
 }

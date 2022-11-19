@@ -3,6 +3,7 @@ import { CrudService } from 'src/app/services/crud.service';
 import { Produto } from 'src/app/interfaces/produto';
 import { ModalController } from '@ionic/angular';
 import { PedidoPage } from 'src/app/modal/pedido/pedido.page';
+import { EncerradoPage } from 'src/app/modal/encerrado/encerrado.page';
 
 @Component({
   selector: 'app-cozinha',
@@ -48,6 +49,16 @@ export class CozinhaPage implements OnInit {
   async openModal(value) {
     const modal = await this.modal.create({
       component: PedidoPage,
+      componentProps: {
+        id_pedido: value
+      }
+    });
+    modal.present();
+  }
+
+  async openEncerrado(value){
+    const modal = await this.modal.create({
+      component: EncerradoPage,
       componentProps: {
         id_pedido: value
       }
