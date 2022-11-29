@@ -1,0 +1,139 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Pesquisa de Pedido</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal()">
+        <ion-icon color="danger" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div id="print" class="text" *ngIf="Encerrado.length > 0">
+    <table class="printer-ticket" *ngFor="let x of Encerrado">
+      <thead>
+        <tr>
+          <th class="title" colspan="3">Restaurante Teste</th>
+        </tr>
+        <tr>
+          <th colspan="3">{{x.endData.toDate() | date: 'EEEE, dd-MM-yyyy -- hh:mm:ss '}}</th>
+        </tr>
+        <tr>
+          <th colspan="3">
+            Cliente: {{x.nome}} <br />
+            CPF: {{x.cpf}}
+          </th>
+        </tr>
+        <tr>
+          <th class="ttu" colspan="3">
+            <b>Cupom não fiscal</b>
+          </th>
+        </tr>
+      </thead>
+      <tbody *ngFor="let a of x.pedido">
+        <tr class="top">
+          <td colspan="3">{{a.name}}</td>
+        </tr>
+        <tr>
+          <td>{{a.price | currency: 'BRL':'symbol'}}</td>
+          <td>Quantidade: x{{a.count}}</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr class="sup ttu p--0">
+          <td colspan="3" class="ttu">
+            <b>Totais</b>
+          </td>
+        </tr>
+        <tr class="ttu">
+          <td colspan="2">Sub-total:</td>
+          <td>{{totalEncerrado | currency: 'BRL':'symbol'}}</td>
+        </tr>
+        <tr class="sup">
+          <td colspan="3">
+            <p class="center">www.site.com.br</p>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+  <div id="print" class="text" *ngIf="Aberto.length > 0">
+    <table class="printer-ticket" *ngFor="let x of Aberto">
+      <thead>
+        <tr>
+          <th class="title" colspan="3">Restaurante Teste</th>
+        </tr>
+        <tr>
+          <th colspan="3">
+            Cliente: {{x.nome}} <br />
+            CPF: {{x.cpf}}
+          </th>
+        </tr>
+        <tr>
+          <th class="ttu" colspan="3">
+            <b>Cupom não fiscal</b>
+          </th>
+        </tr>
+      </thead>
+      <tbody *ngFor="let a of x.pedido">
+        <tr class="top">
+          <td colspan="3">{{a.name}}</td>
+        </tr>
+        <tr>
+          <td>{{a.price | currency: 'BRL':'symbol'}}</td>
+          <td>Quantidade: x{{a.count}}</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr class="sup ttu p--0">
+          <td colspan="3" class="ttu">
+            <b>Totais</b>
+          </td>
+        </tr>
+        <tr class="ttu">
+          <td colspan="2">Sub-total:</td>
+          <td>{{totalAberto | currency: 'BRL':'symbol'}}</td>
+        </tr>
+        <tr class="sup">
+          <td colspan="3">
+            <p class="center">www.site.com.br</p>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</ion-content>
+<ion-footer *ngIf="Encerrado.length > 0">
+  <ion-toolbar *ngFor="let x of Encerrado">
+    <ion-item-divider>
+      STATUS DO PEDIDO
+    </ion-item-divider>
+    <ion-item>
+      <ion-icon color="success" slot="start" name="checkmark-outline"></ion-icon>
+      <p>ESTE PEDIDO FOI CONCLUÍDO</p>
+    </ion-item>
+    <ion-item button (click)="generatePDF()">
+      <ion-icon color="danger" slot="start" name="document-text-outline"></ion-icon>
+      <p>EMITIR NOTA DO PEDIDO</p>
+    </ion-item>
+  </ion-toolbar>
+</ion-footer>
+<ion-footer *ngIf="Aberto.length > 0">
+  <ion-toolbar *ngFor="let x of Aberto">
+    <ion-item-divider>
+      STATUS DO PEDIDO
+    </ion-item-divider>
+    <ion-item>
+      <ion-icon slot="start" color="primary" name="time-outline"></ion-icon>
+      <p>PEDIDO EM ABERTO!</p>
+    </ion-item>
+    <ion-item>
+      <ion-icon *ngIf="x.status == '0'" color="danger" slot="start" name="chevron-forward-outline"></ion-icon>
+      <ion-icon *ngIf="x.status == '1'" color="warning"slot="start" name="chevron-forward-outline"></ion-icon> 
+      <ion-icon *ngIf="x.status == '2'" color="success" slot="start" name="chevron-forward-outline"></ion-icon> 
+      <ion-icon *ngIf="x.status == '3'" color="danger" slot="start" name="chevron-forward-outline"></ion-icon> 
+      {{x.statusDesc}}      
+    </ion-item>
+  </ion-toolbar>
+</ion-footer>

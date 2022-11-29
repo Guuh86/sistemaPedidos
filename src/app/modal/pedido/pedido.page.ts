@@ -36,11 +36,10 @@ export class PedidoPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    
+    this.loadData();    
   }
 
   ngViewAfterInit(){
-    this.loadData();
   }
 
   loadData() {
@@ -115,6 +114,7 @@ export class PedidoPage implements OnInit {
           handler: () => {
             try {
               for (let i = 0; i < this.array.length; i++) {
+                this.array = [];
                 if (id == this.array[i].id) {
                   this.array.forEach(x => {
                     const ecerrado = x;

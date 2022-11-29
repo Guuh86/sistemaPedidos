@@ -42,6 +42,10 @@ const routes: Routes = [
     path: 'encerrado',
     loadChildren: () => import('./modal/encerrado/encerrado.module').then( m => m.EncerradoPageModule)
   },
+  {
+    path: 'cozinha-result',
+    loadChildren: () => import('./modal/cozinha-result/cozinha-result.module').then( m => m.CozinhaResultPageModule)
+  },
 
 ];
 

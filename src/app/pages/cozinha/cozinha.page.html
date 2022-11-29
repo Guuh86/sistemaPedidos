@@ -50,3 +50,13 @@
     </ion-list>
   </div>
 </ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-item>
+      <ion-input placeholder="Pesquisar um pedido" [(ngModel)]="id"></ion-input>
+      <ion-button slot="end" fill="clear" (click)="openCozinhaResult(id)">
+        <ion-icon name="search-outline" slot="end"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-toolbar>
+</ion-footer>

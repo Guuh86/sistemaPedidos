@@ -4,6 +4,7 @@ import { Produto } from 'src/app/interfaces/produto';
 import { ModalController } from '@ionic/angular';
 import { PedidoPage } from 'src/app/modal/pedido/pedido.page';
 import { EncerradoPage } from 'src/app/modal/encerrado/encerrado.page';
+import { CozinhaResultPage } from 'src/app/modal/cozinha-result/cozinha-result.page';
 
 @Component({
   selector: 'app-cozinha',
@@ -15,6 +16,7 @@ export class CozinhaPage implements OnInit {
   pedidoData: any;
   encerradosData: any;
   expanded: boolean;
+  id: any;
 
   pedidoClosed: [];
 
@@ -59,6 +61,16 @@ export class CozinhaPage implements OnInit {
   async openEncerrado(value){
     const modal = await this.modal.create({
       component: EncerradoPage,
+      componentProps: {
+        id_pedido: value
+      }
+    });
+    modal.present();
+  }
+
+  async openCozinhaResult(value){
+    const modal = await this.modal.create({
+      component: CozinhaResultPage,
       componentProps: {
         id_pedido: value
       }

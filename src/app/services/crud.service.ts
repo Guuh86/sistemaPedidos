@@ -38,6 +38,10 @@ export class CrudService {
     return this.db.collection(this.dbClosed, ref => ref.orderBy('preferred_time', 'desc')).doc(doc).set(product)
   }
 
+  getClosed(cpf){
+    return this.db.collection(this.dbClosed).doc(cpf).valueChanges();
+  }
+
   readClosed(){
     return this.db.collection(this.dbClosed).snapshotChanges();
   }
